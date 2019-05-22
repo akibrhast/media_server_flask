@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block play %}
+{% set count = 1 %}
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+        
+                <a class="navbar-brand" href="{{ url_for('logout') }}">Logout</a>
+                <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                          <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Submit</button>
+                      </form>
+            </div>
+        </div>
+</div>
+
+{% for title,path in video_files %}
+
+
+<div class="movie_container">
+
+    <div class="movie-image-container">
+
+       <a href="{{ url_for('play',p=path) }}"> <img width="120" height="180" src="static/img/img.jpg" /></a>
+
+
+    </div>
+    
+    <a href="{{ url_for('play',p=path) }}" class="movie-title"   >{{title|replace(".", " ") }} </a>
+    <div class="movie-releaseDate movie-title" > Release Date</div>
+    
+</div>
+
+  
+{% endfor %}
+
+
+<div class="show-more-button">
+  <button> Show More </button>
+</div>
+{% endblock %}
