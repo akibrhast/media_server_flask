@@ -71,7 +71,9 @@ db.sqlite3
 
 # Flask stuff:
 instance/
-static/video
+static/video/Movies
+static/video/Series
+
 
 # Scrapy stuff:
 .scrapy
