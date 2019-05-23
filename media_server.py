@@ -16,7 +16,18 @@ video_dir = 'static/video/'
 
 app = Flask(__name__)
 video_files=[]
+
+'''
+Things to change in this script
+1: Modify to add command line arguments when running script
+	-> python media_server.py -d 0( set debug to false, app is then accesible globally. Default/no args is debug true, app hosted only on local network)
+	-> python media_server.py -port (set port to host at, defaults to 5001. -port option only avilable if -d 0 is not used)
+'''
 DEBUG =True
+
+
+
+
 
 @app.route('/')
 @app.route('/login')
@@ -49,26 +60,7 @@ def logout():
 	session['logged_in'] = False
 	return home()
 	
-'''
-@app.route('/signup', methods=['GET','POST'])
-def do_signup():
-	POST_FIRSTNAME = str(request.form['firstname'])
-	POST_LASTNAME  = str(request.form['lastname'])
-	POST_USERNAME  = str(request.form['username'])
-	POST_EMAIL     = str(request.form['email'])
-	POST_PASSWORD  = str(request.form['password'])
-	Session = sessionmaker(bind=engine)
-	s = Session()
-	user = User(username=POST_USERNAME,password=POST_PASSWORD,firstname=POST_FIRSTNAME,lastname=POST_LASTNAME,email=POST_EMAIL,)
-	s.add(user)
-	s.commit()
 
-	return redirect(url_for('home'))
-		
-@app.route("/signup")
-def signup():
-	return render_template('signup.html')
-'''		
 @app.route('/signup', methods=['GET','POST'])
 def signup():
 	form = RegistrationForm()
