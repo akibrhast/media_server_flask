@@ -1,11 +1,14 @@
-import os, time
-path_to_watch = "Movies"
+import os, time,click
 
-def watchdirectorychange(path_to_watch):
-	before = dict ([(f, None) for f in os.listdir (path_to_watch)]) #Initial Directory State
+
+@click.command()
+@click.option('-p','--path', default='.',help='Directory to be watched.')
+def watchdirectorychange(path):
+	"""Simple function that watches and notifies changes to the specified directory, defaults to current directory. """
+	before = dict ([(f, None) for f in os.listdir (path)]) #Initial Directory State
 	while 1:
 		time.sleep (5)
-		after = dict ([(f, None) for f in os.listdir (path_to_watch)]) # Directory state after checking starts
+		after = dict ([(f, None) for f in os.listdir (path)]) # Directory state after checking starts
 
 		'''
 		#Check to see if a file is added to the directory
@@ -24,4 +27,4 @@ def watchdirectorychange(path_to_watch):
 		if removed: print( "Removed: ", ", ".join (removed))
 		before = after # Set initial directory state to directory state after change has been made
 
-watchdirectorychange(path_to_watch)
+watchdirectorychange()

@@ -1,3 +1,5 @@
+#import click #for command line arguments
+#from flask.ext.runner import Runner(also for comand line arguments)
 from forms import RegistrationForm, LoginForm
 
 from importlib import reload
@@ -23,9 +25,8 @@ Things to change in this script
 	-> python media_server.py -d 0( set debug to false, app is then accesible globally. Default/no args is debug true, app hosted only on local network)
 	-> python media_server.py -port (set port to host at, defaults to 5001. -port option only avilable if -d 0 is not used)
 '''
-DEBUG =True
-
-
+DEBUG =False
+PORT = 5001
 
 
 
@@ -106,8 +107,10 @@ def video(filename):
 
 if __name__ == '__main__':
 	app.secret_key = os.urandom(12)
-	if DEBUG == True:
-		app.run(host='0.0.0.0', debug=True,port=5001)
+	if DEBUG:
+		app.run(host='0.0.0.0', debug=True,port=PORT)
 	else:
 		run_with_ngrok(app)
+
 		app.run()
+
