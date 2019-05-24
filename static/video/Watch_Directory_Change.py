@@ -1,11 +1,27 @@
 import os, time
 path_to_watch = "Movies"
-before = dict ([(f, None) for f in os.listdir (path_to_watch)])
-while 1:
-	time.sleep (5)
-	after = dict ([(f, None) for f in os.listdir (path_to_watch)])
-	added = [f for f in after if not f in before]
-	removed = [f for f in before if not f in after]
-	if added: print( "Added: ", ", ".join (added))
-	if removed: print( "Removed: ", ", ".join (removed))
-	before = after
+
+def watchdirectorychange(path_to_watch):
+	before = dict ([(f, None) for f in os.listdir (path_to_watch)]) #Initial Directory State
+	while 1:
+		time.sleep (5)
+		after = dict ([(f, None) for f in os.listdir (path_to_watch)]) # Directory state after checking starts
+
+		'''
+		#Check to see if a file is added to the directory
+		added = [f for f in after if not f in before] 
+		If a file exist in the list "after", but not in the list "before" it is added to the list  "added"
+		'''
+		added = [f for f in after if not f in before]
+
+		'''
+		Check to see if a file is removed from the directory
+		removed = [f for f in before if not f in after]
+		If a file exists in the list "before" not in the list after, it is added to the list "removed"
+		'''
+		removed = [f for f in before if not f in after]
+		if added: print( "Added: ", ", ".join (added))
+		if removed: print( "Removed: ", ", ".join (removed))
+		before = after # Set initial directory state to directory state after change has been made
+
+watchdirectorychange(path_to_watch)
