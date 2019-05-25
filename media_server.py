@@ -1,7 +1,7 @@
 #import click #for command line arguments
 #from flask.ext.runner import Runner(also for comand line arguments)
 from forms import RegistrationForm, LoginForm
-
+from flask import jsonify
 from importlib import reload
 import time
 from flask_ngrok import run_with_ngrok
@@ -25,7 +25,7 @@ Things to change in this script
 	-> python media_server.py -d 0( set debug to false, app is then accesible globally. Default/no args is debug true, app hosted only on local network)
 	-> python media_server.py -port (set port to host at, defaults to 5001. -port option only avilable if -d 0 is not used)
 '''
-DEBUG =False
+DEBUG =True
 PORT = 5001
 
 
@@ -80,7 +80,12 @@ def signup():
 		return redirect(url_for('home'))
 	return render_template('signup.html', title='Register', form=form)
 
-@app.route('/index')
+
+def partialListGen():
+		for i in range(0,len(video_files),10):
+			yield video_files[i:i+10]
+v=partialListGen()
+@app.route('/index',methods=['GET'])
 def index():
 	if session.get('logged_in'):
 		for root, dirs, files in os.walk("static/video", topdown=False):
@@ -89,10 +94,15 @@ def index():
 				if name.find("mp4")!= -1:
 					video_files.append([name,os.path.join(root, name)])
 		video_files_number = len(video_files)
-		return render_template("index.html", title='Home', video_files_number=video_files_number, video_files=video_files)
+		
+		return render_template("index.html", title='Home', video_files_number=video_files_number, video_files=next(v))
+	else:
+		return redirect(url_for('do_admin_login'))
 
-
-
+@app.route('/index',methods=['POST'])
+def something():
+	
+	return str(next(v))
 	
 @app.route('/play')
 def play():

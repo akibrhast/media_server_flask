@@ -38,8 +38,37 @@
   
 {% endfor %}
 
-
 <div class="show-more-button">
-  <button> Show More </button>
-</div>
+    <button onclick=test()> Show More </button>
+  </div>
+
+
+<script>
+
+
+
+
+function test()
+{
+  
+
+
+    $.ajax
+    ({
+        type: "POST",
+        url: "/index",
+        success: function(data){
+          console.log(data)
+        }
+      
+    });
+
+   
+
+}
+function test2(){
+  console.log("hellow world");
+}
+
+</script>
 {% endblock %}
