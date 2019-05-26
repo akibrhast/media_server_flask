@@ -82,12 +82,13 @@ def signup():
 
 
 def partialListGen():
-		for i in range(0,len(video_files),10):
-			yield video_files[i:i+10]
-v=partialListGen()
-@app.route('/index',methods=['GET'])
+		for i in range(35,len(video_files),10):
+    			yield video_files[i:i+10]
+
+mygenrator = partialListGen()
+@app.route('/index',methods=['GET','POST'])
 def index():
-	if session.get('logged_in'):
+	if session.get('logged_in') and request.method == 'GET':
 		for root, dirs, files in os.walk("static/video", topdown=False):
 			for name in files:
 				#temporary fix to only grab mp4 files
@@ -95,15 +96,21 @@ def index():
 					video_files.append([name,os.path.join(root, name)])
 		video_files_number = len(video_files)
 		
-		return render_template("index.html", title='Home', video_files_number=video_files_number, video_files=next(v))
+		global mygenrator
+		mygenrator = partialListGen()
+
+		return render_template("index.html", title='Home', video_files_number=video_files_number, video_files=video_files[:35])
+	if request.method == 'POST':
+		return jsonify(next(mygenrator))
 	else:
 		return redirect(url_for('do_admin_login'))
 
+'''
 @app.route('/index',methods=['POST'])
 def something():
-	
-	return str(next(v))
-	
+
+	return str(next(mygenrator))
+'''
 @app.route('/play')
 def play():
     if session.get('logged_in'):
