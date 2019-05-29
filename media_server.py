@@ -82,24 +82,29 @@ def signup():
 
 
 def partialListGen():
-		for i in range(35,len(video_files),10):
-    			yield video_files[i:i+10]
+	
+	for i in range(10,len(video_files),10):
+		print("number of video files is: " ,len(video_files))
+		print("i is: ", i)
+		yield video_files[i:i+10]
 
 mygenrator = partialListGen()
 @app.route('/index',methods=['GET','POST'])
 def index():
 	if session.get('logged_in') and request.method == 'GET':
-		for root, dirs, files in os.walk("static/video", topdown=False):
-			for name in files:
-				#temporary fix to only grab mp4 files
-				if name.find("mp4")!= -1:
-					video_files.append([name,os.path.join(root, name)])
-		video_files_number = len(video_files)
+		if not video_files:
+			for root, dirs, files in os.walk("static/video/Movies", topdown=False):
+				for name in files:
+					#temporary fix to only grab mp4 files
+					if name.find("mp4")!= -1:
+						video_files.append([name,os.path.join(root, name)])
+		else:
+			pass
 		
 		global mygenrator
 		mygenrator = partialListGen()
 
-		return render_template("index.html", title='Home', video_files_number=video_files_number, video_files=video_files[:35])
+		return render_template("index.html", title='Home', video_files=video_files[:36])
 	if request.method == 'POST':
 		return jsonify(next(mygenrator))
 	else:
