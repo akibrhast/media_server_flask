@@ -1,15 +1,21 @@
 ﻿.movie_container {
-    background-color:#222126; 
+    background-color:#1d1c1d; 
     display: inline-block;
    
-    padding: 0 25px;
+    padding: 25px;
     max-height: 250px;
     max-width: 170px;
-    margin:15px 0px;
-	
-    box-shadow: 0 0 4px 0px black;
+    margin:15px 5px 15px 5px;
+    border-radius: 5px;
+
+    
 }
 
+
+
+.movie_container:hover{
+    box-shadow: 0 0 13px 5px black;
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 400px) {
@@ -24,7 +30,8 @@
     margin: 0 auto;
     padding: 0 5px;
     max-width: 120px;
-    text-align: left
+    text-align: left;
+  
 }
 
 
@@ -70,4 +77,3 @@
     color: #919191;
     padding: 0 5px;
 }
-
