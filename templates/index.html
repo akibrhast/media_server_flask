@@ -56,13 +56,14 @@
   
   function test()
   {
-      $.ajax
-      ({
-          type: "POST",
-          url: "/index",
-          success: function(data)
-          {
-            store = data
+
+    fetch('/index',{method:'POST'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(myJson)
+    {
+      store = myJson
             for (i=0;i<store.length;i++)
             {
               for(j=0;j<store[i].length - 1;j++)
@@ -75,10 +76,10 @@
                 $("#container").append(html);
               }
             }
+    });
 
-          }
-        
-      });
+
+
   
   }
   
