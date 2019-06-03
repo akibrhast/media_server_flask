@@ -22,18 +22,26 @@ class Movie(Base):
 	id = Column(Integer, primary_key=True)
 	movie_title = Column(String)
 	movie_path  = Column(String)
+	movie_subtitle_path = Column(String)
+	movie_image_path = Column(String)
 	movie_releasedate     = Column(String)
 	movie_duration    = Column(String)
+	movie_next    = Column(String)
+	movie_previous   = Column(String)
 	 
 
-def __init__(self,movie_title,movie_path, movie_releasedate,movie_duration):
+def __init__(self,movie_title,movie_path,movie_subtitle_path, movie_releasedate,movie_duration,movie_next,movie_previous,movie_image_path):
 
 	
 	self.self=self
 	self.movie_title = movie_title
 	self.movie_path = movie_path
+	self.movie_subtitle_path = movie_subtitle_path
 	self.movie_releasedate = movie_releasedate
 	self.movie_duration = movie_duration
+	self.movie_next = movie_next
+	self.movie_previous = movie_previous
+	self.movie_image_path = movie_image_path
 
 	 
 # create tables

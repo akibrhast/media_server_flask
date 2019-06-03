@@ -22,4 +22,8 @@ for root, dirs, files in os.walk("static/video", topdown=False):
 	for name in files:
 		#temporary fix to only grab mp4 files
 		if name.find("mp4")!= -1:
-			movie = Movie(movie_title=str(name),movie_path=str(os.path.join(root, name)),movie_releasedate="",movie_duration=str(VideoFileClip(os.path.join(root, name)).duration))
+			movie = Movie(
+				movie_title=str(name),
+				movie_path=str(os.path.join(root, name)),
+				movie_releasedate="",
+				movie_duration=str(VideoFileClip(os.path.join(root, name)).duration))

@@ -10,13 +10,63 @@
                 <a class="navbar-brand" href="{{ url_for('logout') }}">Logout</a>
                 <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Search">
+                          <input type="text" onkeyup="trackChange(this.value)" class="searchbar" placeholder="Search">
+                          <button type="submit" class="personalbutton">Submit</button>
                         </div>
-                        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Submit</button>
+                        
                       </form>
             </div>
         </div>
 </div>
+<div class="continue-watching">
+ <h4> Continue Watching</h4>
+
+
+  {% for title,path in video_files %}
+
+
+  <div class="movie_container">
+  
+      <div class="movie-image-container">
+  
+         <a href="{{ url_for('play',p=path) }}"> <img width="120" height="180" src="static/img/img.jpg" /></a>
+  
+  
+      </div>
+      
+      <a href="{{ url_for('play',p=path) }}" title='{{title|replace(".", " ") }}' class="movie-title"    >{{title|replace(".", " ") }} </a>
+      <div class="movie-releaseDate movie-title" > Release Date</div>
+      
+  </div>
+  
+    
+  {% endfor %}
+
+</div>
+<div class="reccomendation">
+  <h4>Reccomended for you</h4>
+
+  {% for title,path in video_files %}
+
+
+<div class="movie_container">
+
+    <div class="movie-image-container">
+
+       <a href="{{ url_for('play',p=path) }}"> <img width="120" height="180" src="static/img/img.jpg" /></a>
+
+
+    </div>
+    
+    <a href="{{ url_for('play',p=path) }}" title='{{title|replace(".", " ") }}' class="movie-title"    >{{title|replace(".", " ") }} </a>
+    <div class="movie-releaseDate movie-title" > Release Date</div>
+    
+</div>
+
+  
+{% endfor %}
+</div>
+
 
 {% for title,path in video_files %}
 
@@ -30,7 +80,7 @@
 
     </div>
     
-    <a href="{{ url_for('play',p=path) }}" class="movie-title"   >{{title|replace(".", " ") }} </a>
+    <a href="{{ url_for('play',p=path) }}" title='{{title|replace(".", " ") }}' class="movie-title"    >{{title|replace(".", " ") }} </a>
     <div class="movie-releaseDate movie-title" > Release Date</div>
     
 </div>
@@ -39,6 +89,20 @@
 {% endfor %}
 <script>
 
+  //test function for search form
+  function trackChange(value) {
+    url = '/index/search?query=' + value;
+    fetch(url,{method:'POST'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(myJson)
+    {
+      store = myJson;
+      console.log(store);
+    });
+      //window.open("http://www.google.com/search?output=search&q=" + value)
+  }
 
   window.onscroll = function() {
     var d = document.documentElement;
@@ -72,8 +136,10 @@
                 name = store[i][j].replace(/\./g," ");
                 link =  store[i][j+1]; 
                 var html =[
-                  '<div class =movie_container><div class="movie-image-container"><a href= /play?p='+ link+ '><img width="120" height="180" src="static/img/img.jpg" /></a></div><a href= /play?p=' + link  + ' class=movie-title>' + name  + '</a><div class="movie-releaseDate movie-title" > Release Date</div></div>' +'\n'  ];
-                $("#container").append(html);
+                  '<div class =movie_container><div class="movie-image-container"><a href= /play?p='+ link+ '><img width="120" height="180" src="static/img/img.jpg" /></a></div><a href= /play?p=' + link  + ' title=' + store[i][j] + ' class=movie-title>' + name  + '</a><div class="movie-releaseDate movie-title" > Release Date</div></div>' +'\n'  ];
+                container = document.getElementById('container');
+				container.insertAdjacentHTML( 'beforeend', html );
+				
               }
             }
     });

@@ -1,10 +1,12 @@
+#!/media/pi/AkibHd/media-server-flask/env/bin/python
+
 #import click #for command line arguments
 #from flask.ext.runner import Runner(also for comand line arguments)
 from forms import RegistrationForm, LoginForm
 from flask import jsonify
 from importlib import reload
 import time
-from flask_ngrok import run_with_ngrok
+#from flask_ngrok import run_with_ngrok
 from flask import Flask, flash, redirect, render_template, request, session, abort,url_for,send_from_directory
 import os,sys
 from sqlalchemy.orm import sessionmaker
@@ -110,12 +112,13 @@ def index():
 	else:
 		return redirect(url_for('do_admin_login'))
 
-'''
-@app.route('/index',methods=['POST'])
-def something():
 
-	return str(next(mygenrator))
-'''
+@app.route('/index/search',methods=['POST'])
+def search():
+	search = request.args.get('query')
+	something = {"mykey":search}
+	return jsonify(something)
+
 @app.route('/play')
 def play():
     if session.get('logged_in'):
@@ -132,7 +135,7 @@ if __name__ == '__main__':
 	if DEBUG:
 		app.run(host='0.0.0.0', debug=True,port=PORT)
 	else:
-		run_with_ngrok(app)
+		#run_with_ngrok(app)
 
 		app.run()
 
