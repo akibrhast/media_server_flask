@@ -47,7 +47,11 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
+FlaskExamples/
+cert.pem
+env1/
+key.pem
+static/video/
 # Unit test / coverage reports
 htmlcov/
 .tox/
